@@ -192,6 +192,7 @@ client.on('ready', () => {
     });
 });
 client.on("messageCreate", async (message) => {
+    /*
     if (message.content == `.send`) {
         if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             message.channel.send(":X: | Admin Perms needed to execute this command");
@@ -226,6 +227,9 @@ client.on("messageCreate", async (message) => {
             );
             message.channel.send({ content: "Hi @everyone ,\n Please take your roles by clicking on the corresponding buttons below to get access in your respective events' channels.",components: [rw] });
         }
+    }
+    */
+    if (message.content == `.eventinfo`){
     }
 });
 client.on('interactionCreate', async (interaction) => {
