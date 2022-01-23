@@ -1,13 +1,38 @@
+require('dotenv').config();
+const User = require("./models/User")
 const Discord = require('discord.js');
 const { Intents } = require('discord.js');
 const { Permissions } = require('discord.js');
-const dotenv = require('dotenv');
+const mongoose = require("mongoose")
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
+const events = ["designing", "coding", "pitching", "gaming", "quiz", "writing"];
 const {
     MessageActionRow,
     MessageButton
 } = require('discord.js');
+(async () => {
+    await mongoose.connect(process.env.DATABASE_URI)
+}
+)()
+
+const getEventInfo = async (event) => {
+    const users = await User.find({ event })
+    let names = ""
+    users.forEach((user) => {
+        names += `${user.name}, `
+    })
+    return names;
+};
+const getUserInfo = async (name) => {
+    const user = await User.findOne({ name })
+    if (!user) {
+        return null;
+    }
+    return { avatar: user.avatar, email: user.email, scholarNo: user.email.split("@student.dpsindore.org")[0], events: user.events.join(", "), timestamp: user.timestamp }
+}
+
+
 const {
     r1,
     r2,
@@ -22,7 +47,6 @@ const {
     r5e,
     r6e
 } = require("./config.json");
-dotenv.config();
 const client = new Discord.Client({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -229,7 +253,31 @@ client.on("messageCreate", async (message) => {
         }
     }
     */
-    if (message.content == `.eventinfo`){
+    if (message.content.startsWith(".eventinfo")) {
+        const event = message.content.substring(11).toLowerCase()
+        if (event) {
+            if (!events.includes(event)) {
+                message.channel.send("Oops the event does not exist. Here are the available events list. ```" + events.join(", ") + "```");
+                // message.channel.send(`Your are ${message.content.substring(10).toLowerCase()}`);
+            } else {
+                message.channel.send("```" + (await getEventInfo(event)) + "```")
+            }
+        } else {
+            (async () => {
+                message.channel.send("Oops the event does not exist. Here are the available events list. ```" + events.join(", ") + "```");
+            })()
+        }
+    }
+    if (message.content.startsWith(".userinfo")) {
+        const name = message.content.substring(10)
+        if (!name) {
+            return message.channel.send("Oops!\n```You have to enter the name of a user.```");
+        }
+        const user = await getUserInfo(name)
+        if (!user) {
+            return message.channel.send("```User does not Exist```")
+        }
+        message.channel.send("```Name: " + name + "\nAvatar: " + user.avatar + "\nEmail: " + user.email + "\nScholar No: " + user.scholarNo + "\nEvents: " + user.events + "\nAccount Created At: " + user.timestamp + "```")
     }
 });
 client.on('interactionCreate', async (interaction) => {
@@ -623,7 +671,7 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({
                     content: `The role <@&${r6}> was removed from you!`,
                     ephemeral: true,
-                });     
+                });
                 interaction.member.roles.remove(r6);
             } else {
                 interaction.member.roles.add(r6);
