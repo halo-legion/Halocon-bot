@@ -282,7 +282,17 @@ client.on("messageCreate", async (message) => {
         if (!user) {
             return message.channel.send("```User does not Exist```")
         }
-        message.channel.send("```Name: " + name + "\nAvatar: " + user.avatar + "\nEmail: " + user.email + "\nScholar No: " + user.scholarNo + "\nEvents: " + user.events + "\nAccount Created At: " + user.timestamp + "```")
+        const userembed = new Discord.MessageEmbed()
+            .setColor("#6e63ff")
+            .addFields(
+                { name: "Name", value: "```"+`${name}`+"```", inline: true },
+                { name: "Email", value: "```"+`${user.email}`+"```", inline: true },
+                { name: "Scholar Number", value: "```"+`${user.scholarNo}`+"```", inline: true },
+                { name: "Events", value: "```"+`${user.events}`+"```", inline: true },
+                { name: "Account Created At", value: "```"+`${user.timestamp}`+"```", inline: true }
+            )
+
+        message.channel.send({ embeds: [userembed] });
     }
 });
 client.on('interactionCreate', async (interaction) => {
