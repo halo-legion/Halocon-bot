@@ -265,7 +265,6 @@ client.on("messageCreate", async (message) => {
                     .setTitle(`Here's the list of participants who have registered for ${event}`)
                     .setDescription("```" + (await getEventInfo(event)) + "```")
                     .setTimestamp()
-                    .setFooter({ text: ':heart: Team Halo '});
                 message.channel.send({ embeds: [eventembed] });
             }
         } else {
