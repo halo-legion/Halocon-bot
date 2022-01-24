@@ -284,6 +284,7 @@ client.on("messageCreate", async (message) => {
         }
         const userembed = new Discord.MessageEmbed()
             .setColor("#6e63ff")
+            .setThumbnail(`${user.avatar}`)
             .addFields(
                 { name: "Name", value: "```"+`${name}`+"```", inline: true },
                 { name: "Email", value: "```"+`${user.email}`+"```", inline: true },
@@ -291,6 +292,7 @@ client.on("messageCreate", async (message) => {
                 { name: "Events", value: "```"+`${user.events}`+"```", inline: true },
                 { name: "Account Created At", value: "```"+`${user.timestamp}`+"```", inline: true }
             )
+
 
         message.channel.send({ embeds: [userembed] });
     }
