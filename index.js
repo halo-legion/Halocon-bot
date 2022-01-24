@@ -260,7 +260,13 @@ client.on("messageCreate", async (message) => {
                 message.channel.send("Oops the event does not exist. Here are the available events list. ```" + events.join(", ") + "```");
                 // message.channel.send(`Your are ${message.content.substring(10).toLowerCase()}`);
             } else {
-                message.channel.send("```" + (await getEventInfo(event)) + "```")
+                const eventembed = new Discord.MessageEmbed()
+                    .setColor("#6e63ff")
+                    .setTitle(`Here's the list of participants who have registered for ${event}`)
+                    .setDescription("```" + (await getEventInfo(event)) + "```")
+                    .setTimestamp()
+                    .setFooter({ text: '❤️ halolegion.com ', iconURL: 'https://i.imgur.com/yK6SqCN.png' });
+                message.channel.send({ embeds: [eventembed] });
             }
         } else {
             (async () => {
