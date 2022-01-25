@@ -257,7 +257,10 @@ client.on("messageCreate", async (message) => {
         const event = message.content.substring(11).toLowerCase()
         if (event) {
             if (!events.includes(event)) {
-                message.channel.send("Oops the event does not exist. Here are the available events list. ```" + events.join(", ") + "```");
+                const eventembed = new Discord.MessageEmbed()
+                    .setTitle("Events")
+                    .setDescription("```" + events.join(", ") + "```")
+                message.channel.send({  embeds: [eventembed] });
                 // message.channel.send(`Your are ${message.content.substring(10).toLowerCase()}`);
             } else {
                 const eventembed = new Discord.MessageEmbed()
@@ -269,18 +272,27 @@ client.on("messageCreate", async (message) => {
             }
         } else {
             (async () => {
-                message.channel.send("Oops the event does not exist. Here are the available events list. ```" + events.join(", ") + "```");
+                const eventembed = new Discord.MessageEmbed()
+                    .setTitle("Events")
+                    .setDescription("```" + events.join(", ") + "```")
+                message.channel.send({  embeds: [eventembed] });
             })()
         }
     }
     if (message.content.startsWith(".userinfo")) {
         const name = message.content.substring(10)
         if (!name) {
-            return message.channel.send("Oops!\n```You have to enter the name of a user.```");
+            const userembed = new Discord.MessageEmbed()
+                .setTitle("Oops!")
+                .setDescription(```You have to enter the name of a user.```)
+            return message.channel.send({ embeds: [userembed] });
         }
         const user = await getUserInfo(name)
         if (!user) {
-            return message.channel.send("```User does not Exist```")
+            const userembed = new Discord.MessageEmbed()
+                .setTitle("Oops!")
+                .setDescription("```User does not Exist```")
+            return message.channel.send({ embeds: [userembed] });
         }
         const userembed = new Discord.MessageEmbed()
             .setColor("#6e63ff")
@@ -292,8 +304,6 @@ client.on("messageCreate", async (message) => {
                 { name: "Events", value: "```"+`${user.events}`+"```", inline: true },
                 { name: "Account Created At", value: "```"+`${user.timestamp}`+"```", inline: true }
             )
-
-
         message.channel.send({ embeds: [userembed] });
     }
 });
