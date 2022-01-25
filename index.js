@@ -284,7 +284,7 @@ client.on("messageCreate", async (message) => {
         if (!name) {
             const userembed = new Discord.MessageEmbed()
                 .setTitle("Oops!")
-                .setDescription(```You have to enter the name of a user.```)
+                .setDescription("```You have to enter the name of a user.```")
             return message.channel.send({ embeds: [userembed] });
         }
         const user = await getUserInfo(name)
@@ -296,7 +296,7 @@ client.on("messageCreate", async (message) => {
         }
         const userembed = new Discord.MessageEmbed()
             .setColor("#6e63ff")
-            .setThumbnail(`${user.avatar}`)
+            .setImage(`${user.avatar}`)
             .addFields(
                 { name: "Name", value: "```"+`${name}`+"```", inline: true },
                 { name: "Email", value: "```"+`${user.email}`+"```", inline: true },
