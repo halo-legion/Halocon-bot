@@ -6,7 +6,7 @@ const { Permissions } = require('discord.js');
 const mongoose = require("mongoose")
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
-const events = ["designing", "coding", "pitching", "gaming", "quiz", "writing"];
+const events = ["Designing", "Coding", "Group Discussion", "Gaming", "Quiz", "Writing"];
 const {
     MessageActionRow,
     MessageButton
