@@ -40,12 +40,18 @@ const {
     r4,
     r5,
     r6,
+    r7,
+    r8,
+    r9,
     r1e,
     r2e,
     r3e,
     r4e,
     r5e,
-    r6e
+    r6e,
+    r7e,
+    r8e,
+    r9e
 } = require("./config.json");
 const client = new Discord.Client({
     intents: [
@@ -253,6 +259,31 @@ client.on("messageCreate", async (message) => {
         }
     }
     */
+    if (message.content == `.gsend`) {
+        if (!message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+            message.channel.send(":X: | Admin Perms needed to execute this command");
+        }
+        if (message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+            const rw = new MessageActionRow().addComponents(
+                new MessageButton()
+                    .setCustomId("r7")
+                    .setLabel("Valorant")
+                    .setStyle("PRIMARY")
+                    .setEmoji(r7e),
+                new MessageButton()
+                    .setCustomId("r8")
+                    .setLabel("BGMI")
+                    .setStyle("PRIMARY")
+                    .setEmoji(r8e),
+                new MessageButton()
+                    .setCustomId("r9")
+                    .setLabel("Minecraft")
+                    .setStyle("PRIMARY")
+                    .setEmoji(r9e),
+            );
+            message.channel.send({ content: "Hi @everyone ,\n Please take your roles by clicking on the corresponding buttons below to get access in your game channels.",components: [rw] });
+        }
+    }
     if (message.content.startsWith(".eventinfo")) {
         const event = message.content.substring(11).toLowerCase()
         if (event) {
@@ -707,8 +738,49 @@ client.on('interactionCreate', async (interaction) => {
                     ephemeral: true,
                 });
             }
+        } else if (interaction.customId == "r7") {
+            if (interaction.member.roles.cache.some((role) => role.id == r7)) {
+                interaction.reply({
+                    content: `The role <@&${r7}> was removed from you!`,
+                    ephemeral: true,
+                });
+                interaction.member.roles.remove(r7);
+            } else {
+                interaction.member.roles.add(r7);
+                await interaction.reply({
+                    content: `The role <@&${r7}> was added to you!`,
+                    ephemeral: true,
+                });
+            }
+        } else if (interaction.customId == "r8") {  
+            if (interaction.member.roles.cache.some((role) => role.id == r8)) {
+                interaction.reply({
+                    content: `The role <@&${r8}> was removed from you!`,
+                    ephemeral: true,
+                });
+                interaction.member.roles.remove(r8);
+            } else {
+                interaction.member.roles.add(r8);
+                await interaction.reply({
+                    content: `The role <@&${r8}> was added to you!`,
+                    ephemeral: true,
+                });
+            }
+        } else if (interaction.customId == "r9") {
+            if (interaction.member.roles.cache.some((role) => role.id == r9)) {
+                interaction.reply({
+                    content: `The role <@&${r9}> was removed from you!`,
+                    ephemeral: true,
+                });
+                interaction.member.roles.remove(r9);
+            } else {
+                interaction.member.roles.add(r9);
+                await interaction.reply({
+                    content: `The role <@&${r9}> was added to you!`,
+                    ephemeral: true,
+                });
+            }
         }
-
     }
 })
 client.login(process.env.TOKEN);
