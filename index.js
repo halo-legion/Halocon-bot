@@ -38,8 +38,6 @@ const getUserInfo = async (name) => {
     }
     return { avatar: user.avatar, email: user.email, scholarNo: user.email.split("@student.dpsindore.org")[0], events: user.events.join(", "), timestamp: user.timestamp }
 }
-
-
 const {
     r1,
     r2,
