@@ -6,7 +6,14 @@ const { Permissions } = require('discord.js');
 const mongoose = require("mongoose")
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
-const events = ["Designing", "Coding", "Group Discussion", "Gaming", "Quiz", "Writing"];
+const events = [
+    "coding",
+    "writing",
+    "designing",
+    "discussion",
+    "gaming",
+    "quiz",
+  ];
 const {
     MessageActionRow,
     MessageButton
@@ -18,11 +25,11 @@ const {
 
 const getEventInfo = async (event) => {
     const users = await User.find({ event })
-    let names = ""
+    let names = []
     users.forEach((user) => {
-        names += `${user.name}, `
+        names.push(user.name)
     })
-    return names;
+    return names.join(", ");
 };
 const getUserInfo = async (name) => {
     const user = await User.findOne({ name })
@@ -297,7 +304,7 @@ client.on("messageCreate", async (message) => {
                 const eventembed = new Discord.MessageEmbed()
                     .setColor("#6e63ff")
                     .setTitle(`Here's the list of participants who have registered for ${event}`)
-                    .setDescription("```" + (await getEventInfo(event)) + "```")
+                    .setDescription("```" + (await getEventInfo(event) || "No event details available") + "```")
                     .setTimestamp()
                 message.channel.send({ embeds: [eventembed] });
             }
