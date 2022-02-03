@@ -24,7 +24,7 @@ const {
 )()
 
 const getEventInfo = async (event) => {
-    const users = await User.find({ event })
+    const users = await User.find({ events: event })
     let names = []
     users.forEach((user) => {
         names.push(user.name)
@@ -289,17 +289,18 @@ client.on("messageCreate", async (message) => {
             message.channel.send({ content: "Hi @everyone ,\n Please take your roles by clicking on the corresponding buttons below to get access in your game channels.",components: [rw] });
         }
     }
+    let eventembed;
     if (message.content.startsWith(".eventinfo")) {
         const event = message.content.substring(11).toLowerCase()
         if (event) {
             if (!events.includes(event)) {
-                const eventembed = new Discord.MessageEmbed()
+                eventembed = new Discord.MessageEmbed()
                     .setTitle("Events")
                     .setDescription("```" + events.join(", ") + "```")
                 message.channel.send({  embeds: [eventembed] });
                 // message.channel.send(`Your are ${message.content.substring(10).toLowerCase()}`);
             } else {
-                const eventembed = new Discord.MessageEmbed()
+                eventembed = new Discord.MessageEmbed()
                     .setColor("#6e63ff")
                     .setTitle(`Here's the list of participants who have registered for ${event}`)
                     .setDescription("```" + (await getEventInfo(event) || "No event details available") + "```")
@@ -308,7 +309,7 @@ client.on("messageCreate", async (message) => {
             }
         } else {
             (async () => {
-                const eventembed = new Discord.MessageEmbed()
+                eventembed = new Discord.MessageEmbed()
                     .setTitle("Events")
                     .setDescription("```" + events.join(", ") + "```")
                 message.channel.send({  embeds: [eventembed] });
@@ -318,19 +319,19 @@ client.on("messageCreate", async (message) => {
     if (message.content.startsWith(".userinfo")) {
         const name = message.content.substring(10)
         if (!name) {
-            const userembed = new Discord.MessageEmbed()
+            userembed = new Discord.MessageEmbed()
                 .setTitle("Oops!")
                 .setDescription("```You have to enter the name of a user.```")
             return message.channel.send({ embeds: [userembed] });
         }
         const user = await getUserInfo(name)
         if (!user) {
-            const userembed = new Discord.MessageEmbed()
+            userembed = new Discord.MessageEmbed()
                 .setTitle("Oops!")
                 .setDescription("```User does not Exist```")
             return message.channel.send({ embeds: [userembed] });
         }
-        const userembed = new Discord.MessageEmbed()
+        userembed = new Discord.MessageEmbed()
             .setColor("#6e63ff")
             .setImage(`${user.avatar}`)
             .addFields(
