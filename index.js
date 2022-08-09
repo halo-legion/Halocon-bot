@@ -646,7 +646,8 @@ client.on('interactionCreate', async (interaction) => {
                     role = false
                 } else {
                     await interaction.reply({
-                        content: `You can only participate in one event`
+                        content: `You can only participate in one event`,
+                        ephemeral: true
                     });
                 }
             }
