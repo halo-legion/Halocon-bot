@@ -1,5 +1,4 @@
 require('dotenv').config();
-const User = require("./models/User")
 const Discord = require('discord.js');
 const { Intents } = require('discord.js');
 const { Permissions } = require('discord.js');
@@ -7,12 +6,9 @@ const mongoose = require("mongoose")
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
 const events = [
-    "coding",
-    "writing",
-    "designing",
-    "discussion",
-    "gaming",
-    "quiz",
+    "Encode",
+    "Recoil",
+    "QuЯious",
   ];
 const {
     MessageActionRow,
@@ -42,21 +38,9 @@ const {
     r1,
     r2,
     r3,
-    r4,
-    r5,
-    r6,
-    r7,
-    r8,
-    r9,
     r1e,
     r2e,
     r3e,
-    r4e,
-    r5e,
-    r6e,
-    r7e,
-    r8e,
-    r9e
 } = require("./config.json");
 const client = new Discord.Client({
     intents: [
@@ -67,7 +51,7 @@ const client = new Discord.Client({
 });
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    const guildId = '924177932056952852';
+    const guildId = '1003695951950655508';
     const guild = client.guilds.cache.get(guildId);
     let commands
     if (guild) {
@@ -271,79 +255,26 @@ client.on("messageCreate", async (message) => {
         if (message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
             const rw = new MessageActionRow().addComponents(
                 new MessageButton()
-                    .setCustomId("r7")
-                    .setLabel("Valorant")
+                    .setCustomId("r1")
+                    .setLabel("Encode")
                     .setStyle("PRIMARY")
-                    .setEmoji(r7e),
+                    .setEmoji(r1e),
                 new MessageButton()
-                    .setCustomId("r8")
-                    .setLabel("BGMI")
+                    .setCustomId("r2")
+                    .setLabel("Recoil")
                     .setStyle("PRIMARY")
-                    .setEmoji(r8e),
+                    .setEmoji(r2e),
                 new MessageButton()
-                    .setCustomId("r9")
-                    .setLabel("Minecraft")
+                    .setCustomId("r3")
+                    .setLabel("QuЯious")
                     .setStyle("PRIMARY")
-                    .setEmoji(r9e),
+                    .setEmoji(r3e),
             );
-            message.channel.send({ content: "Hi @everyone ,\n Please take your roles by clicking on the corresponding buttons below to get access in your game channels.",components: [rw] });
+            message.channel.send({ content: "Hi @everyone ,\n Please take your roles by clicking on the corresponding buttons below to get access in your event channels.",components: [rw] });
         }
-    }
-    let eventembed;
-    if (message.content.startsWith(".eventinfo")) {
-        const event = message.content.substring(11).toLowerCase()
-        if (event) {
-            if (!events.includes(event)) {
-                eventembed = new Discord.MessageEmbed()
-                    .setTitle("Events")
-                    .setDescription("```" + events.join(", ") + "```")
-                message.channel.send({  embeds: [eventembed] });
-                // message.channel.send(`Your are ${message.content.substring(10).toLowerCase()}`);
-            } else {
-                eventembed = new Discord.MessageEmbed()
-                    .setColor("#6e63ff")
-                    .setTitle(`Here's the list of participants who have registered for ${event}`)
-                    .setDescription("```" + (await getEventInfo(event) || "No event details available") + "```")
-                    .setTimestamp()
-                message.channel.send({ embeds: [eventembed] });
-            }
-        } else {
-            (async () => {
-                eventembed = new Discord.MessageEmbed()
-                    .setTitle("Events")
-                    .setDescription("```" + events.join(", ") + "```")
-                message.channel.send({  embeds: [eventembed] });
-            })()
-        }
-    }
-    if (message.content.startsWith(".userinfo")) {
-        const name = message.content.substring(10)
-        if (!name) {
-            userembed = new Discord.MessageEmbed()
-                .setTitle("Oops!")
-                .setDescription("```You have to enter the name of a user.```")
-            return message.channel.send({ embeds: [userembed] });
-        }
-        const user = await getUserInfo(name)
-        if (!user) {
-            userembed = new Discord.MessageEmbed()
-                .setTitle("Oops!")
-                .setDescription("```User does not Exist```")
-            return message.channel.send({ embeds: [userembed] });
-        }
-        userembed = new Discord.MessageEmbed()
-            .setColor("#6e63ff")
-            .setImage(`${user.avatar}`)
-            .addFields(
-                { name: "Name", value: "```"+`${name}`+"```", inline: true },
-                { name: "Email", value: "```"+`${user.email}`+"```", inline: true },
-                { name: "Scholar Number", value: "```"+`${user.scholarNo}`+"```", inline: true },
-                { name: "Events", value: "```"+`${user.events}`+"```", inline: true },
-                { name: "Account Created At", value: "```"+`${user.timestamp}`+"```", inline: true }
-            )
-        message.channel.send({ embeds: [userembed] });
     }
 });
+
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isCommand()) {
         const { commandName, options } = interaction
@@ -699,90 +630,6 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.member.roles.add(r3);
                 await interaction.reply({
                     content: `The role <@&${r3}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r4") {
-            if (interaction.member.roles.cache.some((role) => role.id == r4)) {
-                interaction.reply({
-                    content: `The role <@&${r4}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r4);
-            } else {
-                interaction.member.roles.add(r4);
-                await interaction.reply({
-                    content: `The role <@&${r4}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r5") {
-            if (interaction.member.roles.cache.some((role) => role.id == r5)) {
-                interaction.reply({
-                    content: `The role <@&${r5}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r5);
-            } else {
-                interaction.member.roles.add(r5);
-                await interaction.reply({
-                    content: `The role <@&${r5}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r6") {
-            if (interaction.member.roles.cache.some((role) => role.id == r6)) {
-                interaction.reply({
-                    content: `The role <@&${r6}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r6);
-            } else {
-                interaction.member.roles.add(r6);
-                await interaction.reply({
-                    content: `The role <@&${r6}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r7") {
-            if (interaction.member.roles.cache.some((role) => role.id == r7)) {
-                interaction.reply({
-                    content: `The role <@&${r7}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r7);
-            } else {
-                interaction.member.roles.add(r7);
-                await interaction.reply({
-                    content: `The role <@&${r7}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r8") {  
-            if (interaction.member.roles.cache.some((role) => role.id == r8)) {
-                interaction.reply({
-                    content: `The role <@&${r8}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r8);
-            } else {
-                interaction.member.roles.add(r8);
-                await interaction.reply({
-                    content: `The role <@&${r8}> was added to you!`,
-                    ephemeral: true,
-                });
-            }
-        } else if (interaction.customId == "r9") {
-            if (interaction.member.roles.cache.some((role) => role.id == r9)) {
-                interaction.reply({
-                    content: `The role <@&${r9}> was removed from you!`,
-                    ephemeral: true,
-                });
-                interaction.member.roles.remove(r9);
-            } else {
-                interaction.member.roles.add(r9);
-                await interaction.reply({
-                    content: `The role <@&${r9}> was added to you!`,
                     ephemeral: true,
                 });
             }
