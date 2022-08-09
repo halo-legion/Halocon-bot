@@ -4,6 +4,7 @@ const { Intents } = require('discord.js');
 const { Permissions } = require('discord.js');
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
+const role = true
 const events = [
     "Encode",
     "Recoil",
@@ -594,11 +595,18 @@ client.on('interactionCreate', async (interaction) => {
                 });
                 interaction.member.roles.remove(r1);
             } else {
-                interaction.member.roles.add(r1);
-                await interaction.reply({
-                    content: `The role <@&${r1}> was added to you`,
-                    ephemeral: true,
-                });
+                if (role == true){
+                    interaction.member.roles.add(r1);
+                    await interaction.reply({
+                        content: `The role <@&${r1}> was added to you`,
+                        ephemeral: true,
+                    });
+                    role = false
+                } else {
+                    await interaction.reply({
+                        content: `You can only participate in one event`
+                    });
+                }
             }
         } else if (interaction.customId == "r2") {
             if (interaction.member.roles.cache.some((role) => role.id == r2)) {
@@ -608,11 +616,18 @@ client.on('interactionCreate', async (interaction) => {
                 });
                 interaction.member.roles.remove(r2);
             } else {
-                interaction.member.roles.add(r2);
-                await interaction.reply({
-                    content: `The role <@&${r2}> was added to you!`,
-                    ephemeral: true,
-                });
+                if (role == true){
+                    interaction.member.roles.add(r2);
+                    await interaction.reply({
+                        content: `The role <@&${r2}> was added to you`,
+                        ephemeral: true,
+                    });
+                    role = false
+                } else {
+                    await interaction.reply({
+                        content: `You can only participate in one event`
+                    });
+                }
             }
         } else if (interaction.customId == "r3") {
             if (interaction.member.roles.cache.some((role) => role.id == r3)) {
@@ -622,11 +637,18 @@ client.on('interactionCreate', async (interaction) => {
                 });
                 interaction.member.roles.remove(r3);
             } else {
-                interaction.member.roles.add(r3);
-                await interaction.reply({
-                    content: `The role <@&${r3}> was added to you!`,
-                    ephemeral: true,
-                });
+                if (role == true){
+                    interaction.member.roles.add(r3);
+                    await interaction.reply({
+                        content: `The role <@&${r3}> was added to you`,
+                        ephemeral: true,
+                    });
+                    role = false
+                } else {
+                    await interaction.reply({
+                        content: `You can only participate in one event`
+                    });
+                }
             }
         }
     }
