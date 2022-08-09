@@ -601,7 +601,7 @@ client.on('interactionCreate', async (interaction) => {
                         content: `The role <@&${r1}> was added to you`,
                         ephemeral: true,
                     });
-                    role = false
+                    let role = false
                 } else {
                     await interaction.reply({
                         content: `You can only participate in one event`
@@ -622,7 +622,7 @@ client.on('interactionCreate', async (interaction) => {
                         content: `The role <@&${r2}> was added to you`,
                         ephemeral: true,
                     });
-                    role = false
+                    let role = false
                 } else {
                     await interaction.reply({
                         content: `You can only participate in one event`
@@ -643,7 +643,7 @@ client.on('interactionCreate', async (interaction) => {
                         content: `The role <@&${r3}> was added to you`,
                         ephemeral: true,
                     });
-                    role = false
+                    let role = false
                 } else {
                     await interaction.reply({
                         content: `You can only participate in one event`,
