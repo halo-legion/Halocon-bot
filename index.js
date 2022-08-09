@@ -2,7 +2,6 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const { Intents } = require('discord.js');
 const { Permissions } = require('discord.js');
-const mongoose = require("mongoose")
 const fetch = require('node-fetch');
 const snekfetch = require('snekfetch');
 const events = [
@@ -14,10 +13,6 @@ const {
     MessageActionRow,
     MessageButton
 } = require('discord.js');
-(async () => {
-    await mongoose.connect(process.env.DATABASE_URI)
-}
-)()
 
 const getEventInfo = async (event) => {
     const users = await User.find({ events: event })
